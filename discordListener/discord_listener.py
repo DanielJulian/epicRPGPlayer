@@ -26,7 +26,7 @@ class DiscordListener(discord.Client):
                         print("Sending Drink a potion message")
                         time.sleep(2)
                         self.feedback_queue.put("Drink a potion bro!")
-            elif "We have to check you are actually playing" in message.content and "Dano" in message.content:
+            elif "We have to check you are actually playing" in message.content and "Dhanos" in message.content:
                 duration = 500  # milliseconds
                 freq = 440  # Hz
                 for _ in range(0,20):
