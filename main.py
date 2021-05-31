@@ -13,7 +13,8 @@ manager.start_threads()
 
 
 print("-------------Starting Discord Listener--------------")
-listener = DiscordListener(feedback_queue).Listener()
+listener = DiscordListener()
+listener.set_feedback_queue(feedback_queue)
 tk1="ODQ4NzI5NDI3MjkzODk2NzA0"  
 tk2=".YLQ24A.mfml3tOd9CKbXLPL72CLA2vPBlo"
 listener.run(tk1+tk2)

@@ -36,7 +36,7 @@ class SeleniumManager():
          send(self.driver, 'hunt')
          time.sleep(61) # 61 secs
          send(self.driver, 'hunt')
-         time.sleep(2)
+         time.sleep(61)
          #send(self.driver, 'heal')
          #time.sleep(61) # 61 secs
 
@@ -53,6 +53,7 @@ class SeleniumManager():
 
    def start_threads(self):
       try:
+         _thread.start_new_thread(self.feedback_handler, ())
          _thread.start_new_thread(self.collect, ())
          time.sleep(5)
          _thread.start_new_thread(self.hunt, ())
