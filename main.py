@@ -11,7 +11,6 @@ print("-------------Starting Selenium Manager--------------")
 manager = SeleniumManager(feedback_queue)
 manager.start_threads()
 
-
 print("-------------Starting Discord Listener--------------")
 listener = DiscordListener()
 listener.set_feedback_queue(feedback_queue)
