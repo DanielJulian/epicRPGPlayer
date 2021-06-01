@@ -44,7 +44,16 @@ This class sole purpose is to sequencially type different commands in the discor
 However, this class does not type anything in the chat. What it does is to poll commnds one by one from the Command Queue, ask the Selenium Manager to type it, 
 and then wait a couple seconds before typing the next command.
 
+## Discord Bot Listener - TODO
 
 
 ## Configuration - TODO
+
+You need to create a configuration.properties file next to main.py with the following properties
+
+```bash
+discord_bot_token=YourDiscordListenerBotToken
+```
+
+
 

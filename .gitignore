@@ -1,3 +1,5 @@
+configuration.properties
+
 # Editors
 .vscode/
 .idea/
