@@ -20,7 +20,7 @@ Place chromedriver.exe in C:\Windows , and you will be all set!
 ## Architecture
 <br/>
 <p align="center">
-  <img src="architecture.jpg" alt="Architecture">
+  <img src="architecture.png" alt="Architecture">
 </p>
 <br/>
 
