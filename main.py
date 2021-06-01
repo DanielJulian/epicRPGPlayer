@@ -20,3 +20,9 @@ print("-------------Starting Discord Listener--------------")
 listener = DiscordListener()
 listener.set_feedback_queue(feedback_queue)
 listener.run(os.getenv('discord_bot_token'))
+
+
+# TODOs
+
+# Si me aparece la poli, de alguna manera bloquear el CommandWorker hasta que lo haya resuelto.
+

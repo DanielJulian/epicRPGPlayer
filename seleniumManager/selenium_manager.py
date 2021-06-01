@@ -2,6 +2,7 @@ import time
 import _thread
 import queue
 import random
+from random import randint
 from .utils.discord_login import login
 from .command_worker import CommandWorker
 from selenium import webdriver
@@ -31,13 +32,13 @@ class SeleniumManager():
    def collect(self):
       activities = ['Chop', 'Fish'] # 'Pickup', 'Mine'
       while True:
-         self.command_queue.put(random.choice(activities))
-         time.sleep(302) # 5 min 2 secs
+         self.command_queue.put("rpg " + random.choice(activities))
+         time.sleep(302 + randint(0, 10)) # 5 min 2 secs + random 
 
    def hunt(self):
       while True:
-         self.command_queue.put('hunt')
-         time.sleep(61) # 61 secs
+         self.command_queue.put('rpg hunt')
+         time.sleep(61 + randint(0, 10)) # 61 secs + random 
 
    def feedback_handler(self):
       while True:
@@ -48,8 +49,15 @@ class SeleniumManager():
 
          if feedback_message:
             if feedback_message == 'Drink a potion bro!':
-               self.command_queue.put('heal')
+               self.command_queue.put('rpg heal')
+            elif feedback_message == 'Buy some potions bro!':
+               self.command_queue.put('rpg buy life potion 30')
+            elif feedback_message == 'Join Arena':
+               self.command_queue.put('join')
+            elif feedback_message == 'Join Fight':
+               self.command_queue.put('fight')
 
+               
    def start_threads(self):
       try:
          _thread.start_new_thread(self.feedback_handler, ())

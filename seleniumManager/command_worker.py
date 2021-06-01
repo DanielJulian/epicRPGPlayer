@@ -6,7 +6,6 @@ import _thread
 
 class CommandWorker():
 
-    prefix = "rpg "
     command_queue = None
     driver = None
 
@@ -16,7 +15,7 @@ class CommandWorker():
 
     def send(self, driver, command):
         actions = ActionChains(driver)
-        actions.send_keys(self.prefix + command)
+        actions.send_keys(command)
         actions.send_keys(Keys.ENTER)
         actions.perform()
 
