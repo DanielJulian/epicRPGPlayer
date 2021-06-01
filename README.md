@@ -53,6 +53,8 @@ You need to create a configuration.properties file next to main.py with the foll
 
 ```bash
 discord_bot_token=YourDiscordListenerBotToken
+discord_user_email=YourDiscordUserEmail
+discord_user_password=YourDiscordUserPassword
 ```
 
 
