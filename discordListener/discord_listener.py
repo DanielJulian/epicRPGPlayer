@@ -49,8 +49,8 @@ class DiscordListener(discord.Client):
         elif "rpg miniboss" in message.content:
             print(str(message.author) + " will fight a miniboss... Fighto!!")
             self.feedback_queue.put("Join Fight")
-        elif message.content.startswith("<@&848779233706770483>") and any(word in message.content for word in ['chop', 'fish', 'catch']): # <@&848779233706770483> is the ID for @EPICARDOS
-            requested_work = message.content.replace("<@&848779233706770483>").trim().lower()
+        elif message.content.startswith("<@&848779233706770483>"): # <@&848779233706770483> is the ID for @EPICARDOS
+            requested_work = message.content.replace("<@&848779233706770483>", "").trim().lower()
             print(str(message.author) + " asked everyone to " + requested_work + "!")
             if ('chop' in requested_work):
                 self.feedback_queue.put("help chopin!")
