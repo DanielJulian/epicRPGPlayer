@@ -38,7 +38,13 @@ class SeleniumManager():
    def hunt(self):
       while True:
          self.command_queue.put('rpg hunt')
-         time.sleep(61 + randint(0, 10)) # 61 secs + random 
+         time.sleep(61 + randint(0, 10)) # 61 secs + random
+
+   def adventure(self):
+      while True:
+         self.command_queue.put('rpg heal')
+         self.command_queue.put('rpg adventure')
+         time.sleep(3601 + randint(0, 10)) # 1 hour + random secs
 
    def feedback_handler(self):
       while True:
@@ -63,6 +69,7 @@ class SeleniumManager():
          _thread.start_new_thread(self.feedback_handler, ())
          _thread.start_new_thread(self.collect, ())
          _thread.start_new_thread(self.hunt, ())
+         _thread.start_new_thread(self.adventure, ())
       except Exception as e:
          print ("Yikes")
          print(e)
