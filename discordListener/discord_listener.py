@@ -22,7 +22,7 @@ class DiscordListener(discord.Client):
                 print("Got a message from EPIC RPG " + str(message.content))
                 if 'remaining HP is' in message.content:
                     life_remaining = getLifeRemaining(message.content)
-                    if life_remaining and int(life_remaining) < 40:
+                    if life_remaining and int(life_remaining) <= 64:
                         print("Sending Drink a potion message")
                         self.feedback_queue.put("Drink a potion bro!")
             elif "you don't have a life potion to do this" in message.content:
@@ -43,10 +43,10 @@ class DiscordListener(discord.Client):
                     winsound.Beep(freq, duration)
                     time.sleep(1)
         
-        elif "rpg arena" in message.content:
+        elif "rpg arena" in message.content.strip().lower():
             print(str(message.author) + " created an arena... Joining")
             self.feedback_queue.put("Join Arena")
-        elif "rpg miniboss" in message.content:
+        elif "rpg miniboss" in message.content.strip().lower():
             print(str(message.author) + " will fight a miniboss... Fighto!!")
             self.feedback_queue.put("Join Fight")
         elif message.content.startswith("<@&848779233706770483>"): # <@&848779233706770483> is the ID for @EPICARDOS

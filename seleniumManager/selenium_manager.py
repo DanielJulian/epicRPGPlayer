@@ -30,7 +30,7 @@ class SeleniumManager():
       time.sleep(5)
 
    def collect(self):
-      activities = ['Chop', 'Fish'] # 'Pickup', 'Mine'
+      activities = ['Axe', 'Net', 'Pickup'] # 'Chop', 'Fish', 'Mine', 'Axe', 'Net', 'Pickup'
       while True:
          self.command_queue.put("rpg " + random.choice(activities))
          time.sleep(302 + randint(0, 10)) # 5 min 2 secs + random 
