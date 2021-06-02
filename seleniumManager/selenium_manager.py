@@ -62,6 +62,14 @@ class SeleniumManager():
                self.command_queue.put('join')
             elif feedback_message == 'Join Fight':
                self.command_queue.put('fight')
+            elif feedback_message == 'help chopin!':
+               self.command_queue.put('chop')
+            elif feedback_message == 'help fishin!':
+               self.command_queue.put('fish')
+            elif feedback_message == 'help catchin!':
+               self.command_queue.put('catch')
+            elif feedback_message == 'help sumonnin!':
+               self.command_queue.put('summon')
 
                
    def start_threads(self):

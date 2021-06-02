@@ -58,6 +58,8 @@ class DiscordListener(discord.Client):
                 self.feedback_queue.put("help fishin!")
             elif ('catch' in requested_work):
                 self.feedback_queue.put("help catchin!")
+            elif ('summon' in requested_work):
+                self.feedback_queue.put("help sumonnin!")
 
         # Always log my stuff
         if str(message.author) == 'Dano#9151':
