@@ -50,7 +50,7 @@ class DiscordListener(discord.Client):
             print(str(message.author) + " will fight a miniboss... Fighto!!")
             self.feedback_queue.put("Join Fight")
         elif message.content.startswith("<@&848779233706770483>"): # <@&848779233706770483> is the ID for @EPICARDOS
-            requested_work = message.content.replace("<@&848779233706770483>", "").trim().lower()
+            requested_work = message.content.replace("<@&848779233706770483>", "").strip().lower()
             print(str(message.author) + " asked everyone to " + requested_work + "!")
             if ('chop' in requested_work):
                 self.feedback_queue.put("help chopin!")
