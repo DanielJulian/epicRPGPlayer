@@ -1,5 +1,7 @@
+import os
 import time
 import _thread
+import ast
 import queue
 import random
 from random import randint
@@ -29,10 +31,10 @@ class SeleniumManager():
       login(self.driver)
       time.sleep(5)
 
-   def collect(self):
-      activities = ['Axe', 'Net', 'Pickup'] # 'Chop', 'Fish', 'Mine', 'Axe', 'Net', 'Pickup'
+   def work(self):
+      working_commands = ast.literal_eval(os.getenv('work_commands')) # 'Chop', 'Fish', 'Mine', 'Axe', 'Net', 'Pickup'
       while True:
-         self.command_queue.put("rpg " + random.choice(activities))
+         self.command_queue.put("rpg " + random.choice(working_commands))
          time.sleep(302 + randint(0, 10)) # 5 min 2 secs + random 
 
    def hunt(self):
@@ -75,7 +77,7 @@ class SeleniumManager():
    def start_threads(self):
       try:
          _thread.start_new_thread(self.feedback_handler, ())
-         _thread.start_new_thread(self.collect, ())
+         _thread.start_new_thread(self.work, ())
          _thread.start_new_thread(self.hunt, ())
          _thread.start_new_thread(self.adventure, ())
       except Exception as e:

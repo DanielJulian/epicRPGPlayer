@@ -52,9 +52,33 @@ and then wait a couple seconds before typing the next command.
 You need to create a configuration.properties file next to main.py with the following properties
 
 ```bash
-discord_bot_token=YourDiscordListenerBotToken
+
+# # # # # # # # # #  #
+# Discord Properties #
+# # # # # # # # # #  #
+
+# Discord user credentials to login
 discord_user_email=YourDiscordUserEmail
 discord_user_password=YourDiscordUserPassword
+
+# Discord Bot Token for listening to the chat
+discord_bot_token=YourDiscordListenerBotToken
+
+# Discord user information
+discord_user_name=UserName
+discord_user_name_and_tag=Username#0000
+discord_user_id=146827597273893890
+
+# # # # # # # # # #
+# Game Properties #
+# # # # # # # # # #
+
+# Minumum hp before driking a potion
+hp_threshold=64
+
+# List of working commands to execute randomly.
+work_commands=['Axe', 'Net', 'Pickup']
+
 ```
 
 
