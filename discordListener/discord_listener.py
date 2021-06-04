@@ -22,11 +22,11 @@ class DiscordListener(discord.Client):
                 print("Got a message from EPIC RPG " + str(message.content))
                 if 'remaining HP is' in message.content:
                     life_remaining = getLifeRemaining(message.content)
-                    if life_remaining and int(life_remaining) <= 64:
+                    if life_remaining and int(life_remaining) <= os.getenv('hp_threshold'):
                         print("Sending Drink a potion message")
                         self.feedback_queue.put("Drink a potion bro!")
 
-            elif "you don't have a life potion to do this" in message.content:
+            elif "you don't have a life potion to do this" in message.content and any(name in message.content for name in [os.getenv('discord_user_id'), os.getenv('discord_user_name')]):
                 print("Sending buy a potion message")
                 self.feedback_queue.put("Buy some potions bro!")
 
@@ -65,5 +65,3 @@ class DiscordListener(discord.Client):
             print("Dano sent a message: " + message.content)
         
 
-
-            

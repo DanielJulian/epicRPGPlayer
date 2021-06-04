@@ -42,6 +42,12 @@ class SeleniumManager():
          self.command_queue.put('rpg hunt')
          time.sleep(61 + randint(0, 10)) # 61 secs + random
 
+   def farm(self):
+      while True:
+         self.command_queue.put('rpg buy seed')
+         self.command_queue.put('rpg farm')
+         time.sleep(610 + randint(0, 10)) # 10 minutes 10 secs + random
+
    def adventure(self):
       while True:
          self.command_queue.put('rpg heal')
@@ -77,8 +83,13 @@ class SeleniumManager():
    def start_threads(self):
       try:
          _thread.start_new_thread(self.feedback_handler, ())
+         time.sleep(1)
          _thread.start_new_thread(self.work, ())
+         time.sleep(1)
          _thread.start_new_thread(self.hunt, ())
+         time.sleep(1)
+         _thread.start_new_thread(self.farm, ())
+         time.sleep(1)
          _thread.start_new_thread(self.adventure, ())
       except Exception as e:
          print ("Yikes")

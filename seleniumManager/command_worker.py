@@ -27,6 +27,7 @@ class CommandWorker():
                 command = None
 
             if command:
+                time.sleep(2)
                 self.send(self.driver, command)
                 time.sleep(2)
 
