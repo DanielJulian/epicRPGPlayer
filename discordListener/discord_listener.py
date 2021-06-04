@@ -22,7 +22,7 @@ class DiscordListener(discord.Client):
                 print("Got a message from EPIC RPG " + str(message.content))
                 if 'remaining HP is' in message.content:
                     life_remaining = getLifeRemaining(message.content)
-                    if life_remaining and int(life_remaining) <= os.getenv('hp_threshold'):
+                    if life_remaining and int(life_remaining) <= int(os.getenv('hp_threshold')):
                         print("Sending Drink a potion message")
                         self.feedback_queue.put("Drink a potion bro!")
 
