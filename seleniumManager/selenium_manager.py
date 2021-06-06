@@ -13,12 +13,14 @@ from selenium.webdriver.common.keys import Keys
 
 class SeleniumManager():
 
+   inventory_cache = None
    command_queue = None
    feedback_queue = None
    driver = None
 
-   def __init__(self, feedback_queue):
+   def __init__(self, feedback_queue, inventory_cache):
       self.feedback_queue = feedback_queue
+      self.inventory_cache = inventory_cache
       self.initialize_selenium_manager()
       self.command_queue = queue.Queue()
       print("Initializing Command Worker")
@@ -43,9 +45,23 @@ class SeleniumManager():
          time.sleep(61 + randint(0, 10)) # 61 secs + random
 
    def farm(self):
+      
+      def get_seeds_in_inventory():
+         seed_list = []
+         for item_name, amount in self.inventory_cache.get_consumables().items():
+            print(item_name, amount)
+            if 'seed' in item_name and amount > 0:
+               seed_list.append(item_name)
+         return seed_list
+
       while True:
-         self.command_queue.put('rpg buy seed')
-         self.command_queue.put('rpg farm')
+         self.command_queue.put("rpg i") # To refresh inventory cache
+         time.sleep(10)
+         command = 'rpg farm'
+         seed_list = get_seeds_in_inventory()
+         if (seed_list): 
+            command += " " + random.choice(seed_list)
+         self.command_queue.put(command)
          time.sleep(610 + randint(0, 10)) # 10 minutes 10 secs + random
 
    def adventure(self):
@@ -78,6 +94,10 @@ class SeleniumManager():
                self.command_queue.put('catch')
             elif feedback_message == 'help sumonnin!':
                self.command_queue.put('summon')
+            elif feedback_message == "Buy seed":
+               self.command_queue.put('rpg buy seed')
+               self.farm()
+               
 
                
    def start_threads(self):
