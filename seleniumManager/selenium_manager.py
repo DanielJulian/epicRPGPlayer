@@ -50,7 +50,7 @@ class SeleniumManager():
          seed_list = []
          for item_name, amount in self.inventory_cache.get_consumables().items():
             print(item_name, amount)
-            if 'seed' in item_name and amount > 0:
+            if 'seed' in item_name and amount > 0 and item_name != 'seed':
                seed_list.append(item_name)
          return seed_list
 
@@ -76,7 +76,7 @@ class SeleniumManager():
             feedback_message = self.feedback_queue.get(True, 10)  # Waits for 10 seconds, otherwise throws `Queue.Empty`
          except queue.Empty:
             feedback_message = None
-
+            
          if feedback_message:
             if feedback_message == 'Drink a potion bro!':
                self.command_queue.put('rpg heal')
