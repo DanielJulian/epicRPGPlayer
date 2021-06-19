@@ -1,3 +1,4 @@
+import sys
 import os
 import discord
 import winsound
@@ -17,15 +18,21 @@ class DiscordListener(discord.Client):
     def set_inventory_cache(self, inventory_cache):
         self.inventory_cache = inventory_cache
 
-    def windows_beep(self):
-        duration = 500  # milliseconds
-        freq = 440  # Hz
+    def windows_beep(self, duration, frequency):
         for _ in range(0,2):
-            winsound.Beep(freq, duration)
-            winsound.Beep(freq, duration)
-            winsound.Beep(freq, duration)
+            winsound.Beep(frequency, duration)
+            winsound.Beep(frequency, duration)
+            winsound.Beep(frequency, duration)
             time.sleep(1)
     
+    def check_if_im_in_jail(self, message):
+        if any(name in message.content.lower() for name in [os.getenv('discord_user_id').lower(), os.getenv('discord_user_name').lower()]): # EPIC RPG Message was sent to me 
+            if ("you are in the" in message.content.lower() and "jail" in message.content.lower()) or ("is now in the jail" in message.content):
+                print("We are in Jail... lets stop the bot.")
+                self.windows_beep(300, 2000)
+                self.windows_beep(300, 2000)
+                sys.exit()
+
     def handle_epicardos_tag(self, message):
         requested_work = message.content.replace("<@&848779233706770483>", "").strip().lower()
         print(str(message.author) + " asked everyone to " + requested_work + "!")
@@ -48,7 +55,9 @@ class DiscordListener(discord.Client):
 
     def handle_epic_rpg_message(self, message):
         self.check_embeds(message.embeds)
-
+        self.check_if_im_in_jail(message)
+        
+        print("X- " + message.content)
         # EPIC RPG Message was sent to me 
         if any(name in message.content.lower() for name in [os.getenv('discord_user_id').lower(), os.getenv('discord_user_name').lower()]):
             if 'remaining HP is' in message.content:
@@ -62,7 +71,7 @@ class DiscordListener(discord.Client):
                 self.feedback_queue.put("Buy some potions bro!")
 
             elif "We have to check you are actually playing" in message.content:
-                self.windows_beep()
+                self.windows_beep(500, 400)
             
             elif "you need a" in message.content and "seed to farm" in message.content: # Out of seeds
                 print("Out of seeds, sending message to buy...")

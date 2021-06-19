@@ -49,7 +49,6 @@ class SeleniumManager():
       def get_seeds_in_inventory():
          seed_list = []
          for item_name, amount in self.inventory_cache.get_consumables().items():
-            print(item_name, amount)
             if 'seed' in item_name and amount > 0 and item_name != 'seed':
                seed_list.append(item_name)
          return seed_list
