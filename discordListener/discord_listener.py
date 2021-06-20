@@ -69,6 +69,7 @@ class DiscordListener(discord.Client):
             elif "you don't have a life potion to do this" in message.content:
                 print("Sending buy a potion message")
                 self.feedback_queue.put("Buy some potions bro!")
+                self.feedback_queue.put("Drink a potion bro!")
 
             elif "We have to check you are actually playing" in message.content:
                 self.windows_beep(500, 400)
