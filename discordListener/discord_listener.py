@@ -4,6 +4,7 @@ import discord
 import winsound
 import time
 import _thread
+from discordListener.cooldowns_parser import get_experience_cooldowns, get_progress_cooldowns, get_rewards_cooldowns
 from .listenerParser import getLifeRemaining
 
 
@@ -48,10 +49,37 @@ class DiscordListener(discord.Client):
     def check_embeds(self, embeds):
         for embed in embeds: # Check for embeds
             embed_dict = embed.to_dict()
-            if ('author' in embed_dict):
-                if (embed_dict['author']['name'].lower() == os.getenv('discord_user_name').lower() + "'s inventory"): # Looking at my inventory
+            if ('author' in embed_dict and 'name' in embed_dict['author']):
+                # Looking at my inventory
+                if (embed_dict['author']['name'].lower() == os.getenv('discord_user_name').lower() + "'s inventory"): 
                     for field in embed_dict['fields']:
                         self.inventory_cache.update_inventory(field)
+                # My Cooldowns        
+                elif (embed_dict['author']['name'].lower() == os.getenv('discord_user_name').lower() + "'s cooldowns"):
+                    daily_cd_secs, weekly_cd_secs, lootbox_cd_secs = 0, 0, 0
+                    hunt_cd_secs, adventure_cd_secs = 0, 0
+                    work_cd_secs, farm_cd_secs = 0, 0
+                    for field in embed_dict['fields']:
+                        if 'Rewards' in field['name']:
+                            daily_cd_secs, weekly_cd_secs, lootbox_cd_secs = get_rewards_cooldowns(field['value'])
+                            print(daily_cd_secs, weekly_cd_secs, lootbox_cd_secs)
+                        elif 'Experience' in field['name']:
+                            hunt_cd_secs, adventure_cd_secs = get_experience_cooldowns(field['value'])
+                            print(hunt_cd_secs, adventure_cd_secs)
+                        elif 'Progress' in field['name']:
+                            work_cd_secs, farm_cd_secs = get_progress_cooldowns(field['value'])
+                            print(work_cd_secs, farm_cd_secs)
+                    
+                    self.feedback_queue.put(
+                        {'daily_cd_secs': daily_cd_secs,
+                        'weekly_cd_secs': weekly_cd_secs, 
+                        'lootbox_cd_secs': lootbox_cd_secs, 
+                        'hunt_cd_secs': hunt_cd_secs,
+                        'adventure_cd_secs': adventure_cd_secs,
+                        'work_cd_secs': work_cd_secs,
+                        'farm_cd_secs': farm_cd_secs,
+                        }
+                    )
 
     def handle_epic_rpg_message(self, message):
         self.check_embeds(message.embeds)
@@ -80,6 +108,9 @@ class DiscordListener(discord.Client):
 
     async def on_ready(self):
         print('Logged on as {0}!'.format(self.user))
+        print("Sending rpg cd message to start threads")
+        self.feedback_queue.put("Check Cooldowns")
+
 
     async def on_message(self, message):
         if str(message.author) == 'EPIC RPG#4117':

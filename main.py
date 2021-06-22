@@ -16,7 +16,6 @@ inventoryCache = InventoryCache()
 
 print("-------------Starting Selenium Manager--------------")
 manager = SeleniumManager(feedback_queue, inventoryCache)
-manager.start_threads()
 
 print("-------------Starting Discord Listener--------------")
 listener = DiscordListener()

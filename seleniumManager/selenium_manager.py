@@ -13,6 +13,7 @@ from selenium.webdriver.common.keys import Keys
 
 class SeleniumManager():
 
+   threads_already_running = False
    inventory_cache = None
    command_queue = None
    feedback_queue = None
@@ -26,6 +27,7 @@ class SeleniumManager():
       print("Initializing Command Worker")
       command_worker = CommandWorker(self.command_queue, self.driver)
       command_worker.initialize()
+      _thread.start_new_thread(self.feedback_handler, ())
 
    def initialize_selenium_manager(self):
       self.driver = webdriver.Chrome()
@@ -33,18 +35,41 @@ class SeleniumManager():
       login(self.driver)
       time.sleep(5)
 
-   def work(self):
+   def work(self, initial_cooldown=0):
+      time.sleep(initial_cooldown)
       working_commands = ast.literal_eval(os.getenv('work_commands')) # 'Chop', 'Fish', 'Mine', 'Axe', 'Net', 'Pickup'
       while True:
          self.command_queue.put("rpg " + random.choice(working_commands))
          time.sleep(302 + randint(0, 10)) # 5 min 2 secs + random 
 
-   def hunt(self):
+   def hunt(self, initial_cooldown=0):
+      time.sleep(initial_cooldown)
       while True:
          self.command_queue.put('rpg hunt')
          time.sleep(61 + randint(0, 10)) # 61 secs + random
+   
+   def weekly(self, initial_cooldown=0):
+      time.sleep(initial_cooldown)
+      while True:
+         self.command_queue.put('rpg weekly')
+         time.sleep(604800) # 1 Week
+   
+   def daily(self, initial_cooldown=0):
+      time.sleep(initial_cooldown)
+      while True:
+         self.command_queue.put('rpg daily')
+         time.sleep(86500) # 24 Hours
+   
+   def lootbox(self, initial_cooldown=0):
+      time.sleep(initial_cooldown)
+      while True:
+         self.command_queue.put('rpg withdraw 500k')
+         self.command_queue.put('rpg buy edgy lootbox')
+         self.command_queue.put('rpg deposit all')
+         time.sleep(10900) # 3 Hours
 
-   def farm(self):
+   def farm(self, initial_cooldown=0):
+      time.sleep(initial_cooldown)
       
       def get_seeds_in_inventory():
          seed_list = []
@@ -63,7 +88,8 @@ class SeleniumManager():
          self.command_queue.put(command)
          time.sleep(610 + randint(0, 10)) # 10 minutes 10 secs + random
 
-   def adventure(self):
+   def adventure(self, initial_cooldown=0):
+      time.sleep(initial_cooldown)
       while True:
          self.command_queue.put('rpg heal')
          self.command_queue.put('rpg adventure')
@@ -77,7 +103,9 @@ class SeleniumManager():
             feedback_message = None
             
          if feedback_message:
-            if feedback_message == 'Drink a potion bro!':
+            if type(feedback_message) is dict:
+               self.start_threads(feedback_message)
+            elif feedback_message == 'Drink a potion bro!':
                self.command_queue.put('rpg heal')
             elif feedback_message == 'Buy some potions bro!':
                self.command_queue.put('rpg buy life potion 30')
@@ -95,24 +123,33 @@ class SeleniumManager():
                self.command_queue.put('summon')
             elif feedback_message == "Buy seed":
                self.command_queue.put('rpg buy seed')
-               self.farm()
+               self.farm(0)
+            elif feedback_message == "Check Cooldowns":
+               self.command_queue.put('rpg cd')
                
-
+     
                
-   def start_threads(self):
-      try:
-         _thread.start_new_thread(self.feedback_handler, ())
-         time.sleep(1)
-         _thread.start_new_thread(self.work, ())
-         time.sleep(1)
-         _thread.start_new_thread(self.hunt, ())
-         time.sleep(1)
-         _thread.start_new_thread(self.farm, ())
-         time.sleep(1)
-         _thread.start_new_thread(self.adventure, ())
-      except Exception as e:
-         print ("Yikes")
-         print(e)
+   def start_threads(self, initial_cds):
+      if (self.threads_already_running == False):
+         try:
+            time.sleep(1)
+            _thread.start_new_thread(self.work, (initial_cds['work_cd_secs'],))
+            time.sleep(1)
+            _thread.start_new_thread(self.hunt, (initial_cds['hunt_cd_secs'],))
+            time.sleep(1)
+            _thread.start_new_thread(self.farm, (initial_cds['farm_cd_secs'],))
+            time.sleep(1)
+            _thread.start_new_thread(self.weekly, (initial_cds['weekly_cd_secs'],))
+            time.sleep(1)
+            _thread.start_new_thread(self.daily, (initial_cds['daily_cd_secs'],))
+            time.sleep(1)
+            _thread.start_new_thread(self.lootbox, (initial_cds['lootbox_cd_secs'],))
+            #time.sleep(1)
+            #_thread.start_new_thread(self.adventure, (initial_cds['adventure_cd_secs'],))
+            self.threads_already_running = True
+         except Exception as e:
+            print ("Yikes")
+            print(e)
 
 
    def close_driver(self):
