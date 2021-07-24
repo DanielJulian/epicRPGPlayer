@@ -79,6 +79,15 @@ hp_threshold=64
 # List of working commands to execute randomly.
 work_commands=['Axe', 'Net', 'Pickup']
 
+# Enabled Threads
+adventure.enabled=True
+lootbox.enabled=True
+daily.enabled=True
+weekly.enabled=True
+farm.enabled=True
+hunt.enabled=True
+work.enabled=True
+
 ```
 
 

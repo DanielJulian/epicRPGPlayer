@@ -133,19 +133,26 @@ class SeleniumManager():
       if (self.threads_already_running == False):
          try:
             time.sleep(1)
-            _thread.start_new_thread(self.work, (initial_cds['work_cd_secs'],))
-            time.sleep(1)
-            _thread.start_new_thread(self.hunt, (initial_cds['hunt_cd_secs'],))
-            time.sleep(1)
-            _thread.start_new_thread(self.farm, (initial_cds['farm_cd_secs'],))
-            time.sleep(1)
-            _thread.start_new_thread(self.weekly, (initial_cds['weekly_cd_secs'],))
-            time.sleep(1)
-            _thread.start_new_thread(self.daily, (initial_cds['daily_cd_secs'],))
-            time.sleep(1)
-            _thread.start_new_thread(self.lootbox, (initial_cds['lootbox_cd_secs'],))
-            #time.sleep(1)
-            #_thread.start_new_thread(self.adventure, (initial_cds['adventure_cd_secs'],))
+            if (os.getenv('work.enabled', 'False') == 'True'):
+               _thread.start_new_thread(self.work, (initial_cds['work_cd_secs'],))
+               time.sleep(1)
+            if (os.getenv('hunt.enabled', 'False') == 'True'):
+               _thread.start_new_thread(self.hunt, (initial_cds['hunt_cd_secs'],))
+               time.sleep(1)
+            if (os.getenv('farm.enabled', 'False') == 'True'):
+               _thread.start_new_thread(self.farm, (initial_cds['farm_cd_secs'],))
+               time.sleep(1)
+            if (os.getenv('weekly.enabled', 'False') == 'True'):
+               _thread.start_new_thread(self.weekly, (initial_cds['weekly_cd_secs'],))
+               time.sleep(1)
+            if (os.getenv('daily.enabled', 'False') == 'True'):
+               _thread.start_new_thread(self.daily, (initial_cds['daily_cd_secs'],))
+               time.sleep(1)
+            if (os.getenv('lootbox.enabled', 'False') == 'True'):
+               _thread.start_new_thread(self.lootbox, (initial_cds['lootbox_cd_secs'],))
+               time.sleep(1)
+            if (os.getenv('adventure.enabled', 'False') == 'True'):
+               _thread.start_new_thread(self.adventure, (initial_cds['adventure_cd_secs'],))
             self.threads_already_running = True
          except Exception as e:
             print ("Yikes")
@@ -154,4 +161,3 @@ class SeleniumManager():
 
    def close_driver(self):
       driver.close()
-

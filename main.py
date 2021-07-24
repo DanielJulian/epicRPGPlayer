@@ -26,7 +26,5 @@ listener.run(os.getenv('discord_bot_token'))
 
 # TODOs
 
-# Si me aparece la poli, de alguna manera bloquear el CommandWorker hasta que lo haya resuelto.
-
 # Hacer que el command worker tome una lista d ecomandos para ejecutar secuencialmente.
 # Hacer que el bot acepte duelos y elije una de las 3 opciones solo
