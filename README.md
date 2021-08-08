@@ -91,4 +91,6 @@ work.enabled=True
 ```
 
 
-
+### Disclaimer
+This project was done only for fun... Yeah, I was bored.
+Use this code at your own risk.
