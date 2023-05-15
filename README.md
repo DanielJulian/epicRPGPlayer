@@ -47,7 +47,7 @@ and then wait a couple seconds before typing the next command.
 ## Discord Bot Listener - TODO
 
 
-## Configuration - TODO
+## Configuration
 
 You need to create a configuration.properties file next to main.py with the following properties
 
