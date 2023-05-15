@@ -12,7 +12,7 @@ pip install -r requirements.txt
 ```
 
 ### Selenium 
-Selenium is required for this project. This project was built and tested on Windows 10 using Gooogle Chrome, so the following instructions are the mentioned.
+Selenium is required for this project. This project was built and tested on Windows 10 using Gooogle Chrome.
 Verify your google chrome version, and download the Selenium ChromeDriver from [this website](https://sites.google.com/a/chromium.org/chromedriver/downloads).
 Extract chromedriver_win32.zip and it will give you a file called chromedriver.exe. 
 Place chromedriver.exe in C:\Windows , and you will be all set!
